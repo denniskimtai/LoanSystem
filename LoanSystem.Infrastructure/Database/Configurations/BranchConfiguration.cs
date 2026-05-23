@@ -24,5 +24,14 @@ public sealed class BranchConfiguration : IEntityTypeConfiguration<Branch>
             .WithOne(u => u.Branch)
             .HasForeignKey(u => u.BranchId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasData(new
+        {
+            Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+            Name = "Head Office",
+            Location = "Main Headquarters",
+            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+            IsDeleted = false
+        });
     }
 }

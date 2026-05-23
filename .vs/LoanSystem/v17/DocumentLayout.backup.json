@@ -5,6 +5,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{2E9C61B7-AA73-44DA-8BDB-5F8DE30789B7}|LoanSystem.Api\\LoanSystem.Api.csproj|c:\\users\\v-dennistoo\\documents\\astra enterprise loans system\\backend\\loansystem.api\\controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2E9C61B7-AA73-44DA-8BDB-5F8DE30789B7}|LoanSystem.Api\\LoanSystem.Api.csproj|solutionrelative:loansystem.api\\controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E9C61B7-AA73-44DA-8BDB-5F8DE30789B7}|LoanSystem.Api\\LoanSystem.Api.csproj|c:\\users\\v-dennistoo\\documents\\astra enterprise loans system\\backend\\loansystem.api\\controllers\\healthcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E9C61B7-AA73-44DA-8BDB-5F8DE30789B7}|LoanSystem.Api\\LoanSystem.Api.csproj|solutionrelative:loansystem.api\\controllers\\healthcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 166,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,13 +50,26 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HealthController.cs",
+              "DocumentMoniker": "C:\\Users\\v-dennistoo\\Documents\\Astra Enterprise Loans System\\Backend\\LoanSystem.Api\\Controllers\\HealthController.cs",
+              "RelativeDocumentMoniker": "LoanSystem.Api\\Controllers\\HealthController.cs",
+              "ToolTip": "C:\\Users\\v-dennistoo\\Documents\\Astra Enterprise Loans System\\Backend\\LoanSystem.Api\\Controllers\\HealthController.cs",
+              "RelativeToolTip": "LoanSystem.Api\\Controllers\\HealthController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-23T11:35:24.054Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "ApiController.cs",
               "DocumentMoniker": "C:\\Users\\v-dennistoo\\Documents\\Astra Enterprise Loans System\\Backend\\LoanSystem.Api\\Controllers\\ApiController.cs",
               "RelativeDocumentMoniker": "LoanSystem.Api\\Controllers\\ApiController.cs",
               "ToolTip": "C:\\Users\\v-dennistoo\\Documents\\Astra Enterprise Loans System\\Backend\\LoanSystem.Api\\Controllers\\ApiController.cs",
               "RelativeToolTip": "LoanSystem.Api\\Controllers\\ApiController.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABIAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-18T19:37:35.444Z",
               "EditorCaption": ""

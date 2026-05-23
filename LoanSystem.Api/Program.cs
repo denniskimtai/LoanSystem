@@ -2,6 +2,7 @@ using FluentValidation;
 using Scalar.AspNetCore;
 using LoanSystem.Api.Middleware;
 using LoanSystem.Application.Behaviors;
+using LoanSystem.Infrastructure;
 using LoanSystem.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -32,13 +33,7 @@ builder.Services.AddMediatR(config =>
 builder.Services.AddValidatorsFromAssembly(applicationAssembly);
 
 // Infrastructure Layer
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
-                           ?? Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
-                           
-    options.UseSqlServer(connectionString);
-});
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
@@ -53,6 +48,7 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -475,6 +475,64 @@ namespace LoanSystem.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("branches", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            Location = "Main Headquarters",
+                            Name = "Head Office"
+                        });
+                });
+
+            modelBuilder.Entity("LoanSystem.Domain.Entities.Identity.RefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedByIp")
+                        .HasMaxLength(45)
+                        .HasColumnType("nvarchar(45)");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ReplacedByToken")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<DateTime?>("RevokedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RevokedByIp")
+                        .HasMaxLength(45)
+                        .HasColumnType("nvarchar(45)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("refresh_tokens", (string)null);
                 });
 
             modelBuilder.Entity("LoanSystem.Domain.Entities.Identity.User", b =>
@@ -562,6 +620,29 @@ namespace LoanSystem.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
+                            AccessFailedCount = 0,
+                            BranchId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            ConcurrencyStamp = "44444444-4444-4444-4444-444444444444",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Email = "denniskimtai1@gmail.com",
+                            EmailConfirmed = true,
+                            FullName = "Dennis Kimtai",
+                            IsActive = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DENNISKIMTAI1@GMAIL.COM",
+                            NormalizedUserName = "DENNISKIMTAI1@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEH5JhbKp1v2ApugyWajFv6BoIiJcYYwW4tL8RgQiG8l+9VpY7P96Tc5JbrLYZ6AJig==",
+                            PhoneNumberConfirmed = false,
+                            Role = "Admin",
+                            SecurityStamp = "33333333-3333-3333-3333-333333333333",
+                            TwoFactorEnabled = false,
+                            UserName = "denniskimtai1@gmail.com"
+                        });
                 });
 
             modelBuilder.Entity("LoanSystem.Domain.Entities.Loans.Loan", b =>
@@ -1227,6 +1308,17 @@ namespace LoanSystem.Infrastructure.Migrations
                     b.Navigation("Customer");
                 });
 
+            modelBuilder.Entity("LoanSystem.Domain.Entities.Identity.RefreshToken", b =>
+                {
+                    b.HasOne("LoanSystem.Domain.Entities.Identity.User", "User")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("LoanSystem.Domain.Entities.Identity.User", b =>
                 {
                     b.HasOne("LoanSystem.Domain.Entities.Identity.Branch", "Branch")
@@ -1452,6 +1544,11 @@ namespace LoanSystem.Infrastructure.Migrations
             modelBuilder.Entity("LoanSystem.Domain.Entities.Identity.Branch", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("LoanSystem.Domain.Entities.Identity.User", b =>
+                {
+                    b.Navigation("RefreshTokens");
                 });
 
             modelBuilder.Entity("LoanSystem.Domain.Entities.Loans.Loan", b =>

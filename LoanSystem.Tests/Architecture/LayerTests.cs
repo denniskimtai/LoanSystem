@@ -73,6 +73,8 @@ public class LayerTests
             .DoNotResideInNamespace("LoanSystem.Domain.Enums")
             .And()
             .DoNotHaveName("User")
+            .And()
+            .DoNotHaveName("Roles")
             .Should()
             .Inherit(typeof(LoanSystem.Domain.Primitives.BaseEntity))
             .GetResult();

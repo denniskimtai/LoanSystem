@@ -202,3 +202,6 @@ C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.
 C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.Tests\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
 C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.Tests\bin\Debug\net9.0\Microsoft.OpenApi.dll
 C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.Tests\bin\Debug\net9.0\Scalar.AspNetCore.dll
+C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.Tests\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.Tests\bin\Debug\net9.0\Castle.Core.dll
+C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.Tests\bin\Debug\net9.0\NSubstitute.dll

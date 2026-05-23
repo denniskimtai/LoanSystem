@@ -23,5 +23,7 @@ public class User : IdentityUser<Guid>
         CreatedAt = DateTime.UtcNow;
     }
 
+    public ICollection<RefreshToken> RefreshTokens { get; private set; } = new List<RefreshToken>();
+
     private User() { } // EF Core
 }
