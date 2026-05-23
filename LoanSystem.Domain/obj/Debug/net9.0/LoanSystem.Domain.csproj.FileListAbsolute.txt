@@ -9,3 +9,5 @@ C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.
 C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.Domain\obj\Debug\net9.0\refint\LoanSystem.Domain.dll
 C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.Domain\obj\Debug\net9.0\LoanSystem.Domain.pdb
 C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.Domain\obj\Debug\net9.0\ref\LoanSystem.Domain.dll
+C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.Domain\obj\Debug\net9.0\LoanSystem.Domain.csproj.AssemblyReference.cache
+C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.Domain\obj\Debug\net9.0\LoanSystem.Domain.sourcelink.json

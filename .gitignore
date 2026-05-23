@@ -482,3 +482,13 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# Prevent compiled binaries from being tracked
+*.dll
+*.pdb
+*.exe
+*.cache
+
+# Prevent runtime logs from being tracked
+api_log.txt
+

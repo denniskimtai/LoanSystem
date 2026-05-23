@@ -15,3 +15,4 @@ C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.
 C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.Infrastructure\obj\Debug\net9.0\refint\LoanSystem.Infrastructure.dll
 C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.Infrastructure\obj\Debug\net9.0\LoanSystem.Infrastructure.pdb
 C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.Infrastructure\obj\Debug\net9.0\ref\LoanSystem.Infrastructure.dll
+C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.Infrastructure\obj\Debug\net9.0\LoanSystem.Infrastructure.sourcelink.json

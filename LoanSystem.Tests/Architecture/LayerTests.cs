@@ -50,6 +50,8 @@ public class LayerTests
             .ResideInNamespace("LoanSystem.Api.Controllers")
             .And()
             .AreClasses()
+            .And()
+            .AreNotAbstract()
             .Should()
             .Inherit(typeof(LoanSystem.Api.Controllers.ApiController))
             .GetResult();
@@ -67,10 +69,14 @@ public class LayerTests
             .ResideInNamespace("LoanSystem.Domain")
             .And()
             .DoNotResideInNamespace("LoanSystem.Domain.Primitives")
+            .And()
+            .DoNotResideInNamespace("LoanSystem.Domain.Enums")
+            .And()
+            .DoNotHaveName("User")
             .Should()
             .Inherit(typeof(LoanSystem.Domain.Primitives.BaseEntity))
             .GetResult();
 
-        Assert.True(result.IsSuccessful);
+        Assert.True(result.IsSuccessful, $"Failing types: {string.Join(", ", result.FailingTypes?.Select(t => t.FullName) ?? Array.Empty<string>())}");
     }
 }

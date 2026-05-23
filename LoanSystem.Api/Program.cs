@@ -1,4 +1,5 @@
 using FluentValidation;
+using Scalar.AspNetCore;
 using LoanSystem.Api.Middleware;
 using LoanSystem.Application.Behaviors;
 using LoanSystem.Infrastructure.Database;
@@ -19,6 +20,8 @@ builder.Host.UseSerilog();
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddOpenApi();
+
 // Application Layer
 var applicationAssembly = typeof(LoanSystem.Application.Abstractions.Messaging.ICommand).Assembly;
 builder.Services.AddMediatR(config =>
@@ -34,7 +37,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
                            ?? Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
                            
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+    options.UseSqlServer(connectionString);
 });
 
 var app = builder.Build();
@@ -42,6 +45,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();

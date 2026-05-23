@@ -1,10 +1,13 @@
+using LoanSystem.Domain.Entities.Identity;
 using LoanSystem.Domain.Primitives;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace LoanSystem.Infrastructure.Database;
 
-public class AppDbContext : DbContext
+public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -44,5 +47,24 @@ public class AppDbContext : DbContext
         configurationBuilder
             .Properties<decimal?>()
             .HavePrecision(18, 4);
+    }
+
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        foreach (var entry in ChangeTracker.Entries<BaseEntity>())
+        {
+            switch (entry.State)
+            {
+                case EntityState.Added:
+                    // CreatedAt is initialized to UtcNow in BaseEntity constructor
+                    break;
+
+                case EntityState.Modified:
+                    entry.Property(e => e.UpdatedAt).CurrentValue = DateTime.UtcNow;
+                    break;
+            }
+        }
+
+        return await base.SaveChangesAsync(cancellationToken);
     }
 }
