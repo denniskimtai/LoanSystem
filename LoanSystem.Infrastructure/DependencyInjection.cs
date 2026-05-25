@@ -34,6 +34,8 @@ public static class DependencyInjection
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         services.AddScoped<IBranchRepository, BranchRepository>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<IInteractionRepository, InteractionRepository>();
+        services.AddScoped<ILoanRepository, LoanRepository>();
 
         // 3. Identity Core
         services.AddIdentityCore<User>(options =>

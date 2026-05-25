@@ -20,6 +20,8 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     public DbSet<LoanSystem.Domain.Entities.Customers.CustomerSecondaryInfo> CustomerSecondaryInfos { get; set; }
     public DbSet<LoanSystem.Domain.Entities.Customers.Guarantor> Guarantors { get; set; }
     public DbSet<LoanSystem.Domain.Entities.Customers.Referee> Referees { get; set; }
+    public DbSet<LoanSystem.Domain.Entities.CRM.Interaction> Interactions { get; set; }
+    public DbSet<LoanSystem.Domain.Entities.Loans.Loan> Loans { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

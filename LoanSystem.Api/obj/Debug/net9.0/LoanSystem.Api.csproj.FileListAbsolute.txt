@@ -201,4 +201,3 @@ C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.
 C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.Api\bin\Debug\net9.0\Scalar.AspNetCore.dll
 C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.Api\obj\Debug\net9.0\LoanSystem.Api.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.Api\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-C:\Users\v-dennistoo\Documents\Astra Enterprise Loans System\Backend\LoanSystem.Api\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
