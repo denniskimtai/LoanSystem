@@ -9,9 +9,12 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Port binding for Railway (defaults to 8080)
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-builder.WebHost.UseUrls($"http://*:{port}");
+// Port binding for Railway (only override if PORT is specified in the environment)
+var port = Environment.GetEnvironmentVariable("PORT");
+if (!string.IsNullOrEmpty(port))
+{
+    builder.WebHost.UseUrls($"http://*:{port}");
+}
 
 // Configure Serilog
 Log.Logger = new LoggerConfiguration()
