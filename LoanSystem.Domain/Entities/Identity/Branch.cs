@@ -14,5 +14,12 @@ public sealed class Branch : BaseEntity
         Location = location;
     }
 
+    public void Update(string name, string location)
+    {
+        Name = name;
+        Location = location;
+        UpdateTimestamp();
+    }
+
     private Branch() { } // EF Core
 }

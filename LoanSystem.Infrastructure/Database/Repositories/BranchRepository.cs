@@ -18,4 +18,24 @@ public sealed class BranchRepository : IBranchRepository
         return await _context.Branches
             .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
     }
+
+    public void Add(Branch branch)
+    {
+        _context.Branches.Add(branch);
+    }
+
+    public async Task<(IReadOnlyCollection<Branch> Items, int TotalCount)> GetPagedAsync(int page, int pageSize, CancellationToken cancellationToken = default)
+    {
+        var query = _context.Branches;
+
+        var totalCount = await query.CountAsync(cancellationToken);
+
+        var items = await query
+            .OrderBy(b => b.Name)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+
+        return (items, totalCount);
+    }
 }
