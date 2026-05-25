@@ -21,4 +21,17 @@ public sealed class Referee : BaseEntity
     }
 
     private Referee() { } // EF Core
+
+    public void Update(
+        string name,
+        string phone,
+        string physicalAddress,
+        string relationship)
+    {
+        Name = name;
+        Phone = phone;
+        PhysicalAddress = physicalAddress;
+        Relationship = relationship;
+        UpdateTimestamp();
+    }
 }

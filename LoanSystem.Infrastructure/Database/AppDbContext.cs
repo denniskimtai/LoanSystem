@@ -15,6 +15,11 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 
     public DbSet<Branch> Branches { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
+    public DbSet<LoanSystem.Domain.Entities.Customers.Customer> Customers { get; set; }
+    public DbSet<LoanSystem.Domain.Entities.Customers.CustomerBusinessInfo> CustomerBusinessInfos { get; set; }
+    public DbSet<LoanSystem.Domain.Entities.Customers.CustomerSecondaryInfo> CustomerSecondaryInfos { get; set; }
+    public DbSet<LoanSystem.Domain.Entities.Customers.Guarantor> Guarantors { get; set; }
+    public DbSet<LoanSystem.Domain.Entities.Customers.Referee> Referees { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

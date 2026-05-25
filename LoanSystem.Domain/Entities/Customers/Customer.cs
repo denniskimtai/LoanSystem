@@ -56,4 +56,95 @@ public sealed class Customer : BaseEntity
     }
 
     private Customer() { } // EF Core
+
+    public void UpdateBasicInfo(
+        string fullName,
+        string nationalId,
+        string phone,
+        string photoUrl,
+        string physicalAddress,
+        string homeGeoLocation,
+        string town,
+        string county,
+        string postalAddress)
+    {
+        FullName = fullName;
+        NationalId = nationalId;
+        Phone = phone;
+        PhotoUrl = photoUrl;
+        PhysicalAddress = physicalAddress;
+        HomeGeoLocation = homeGeoLocation;
+        Town = town;
+        County = county;
+        PostalAddress = postalAddress;
+        UpdateTimestamp();
+    }
+
+    public void SetBusinessInfo(CustomerBusinessInfo businessInfo)
+    {
+        BusinessInfo = businessInfo;
+        UpdateTimestamp();
+    }
+
+    public void SetSecondaryInfo(CustomerSecondaryInfo secondaryInfo)
+    {
+        SecondaryInfo = secondaryInfo;
+        UpdateTimestamp();
+    }
+
+    public void AddGuarantor(Guarantor guarantor)
+    {
+        Guarantors.Add(guarantor);
+        UpdateTimestamp();
+    }
+
+    public void RemoveGuarantor(Guid guarantorId)
+    {
+        var guarantor = Guarantors.FirstOrDefault(g => g.Id == guarantorId);
+        if (guarantor != null)
+        {
+            Guarantors.Remove(guarantor);
+            UpdateTimestamp();
+        }
+    }
+
+    public void AddReferee(Referee referee)
+    {
+        Referees.Add(referee);
+        UpdateTimestamp();
+    }
+
+    public void RemoveReferee(Guid refereeId)
+    {
+        var referee = Referees.FirstOrDefault(r => r.Id == refereeId);
+        if (referee != null)
+        {
+            Referees.Remove(referee);
+            UpdateTimestamp();
+        }
+    }
+
+    public void AssignLoanOfficer(Guid? loId)
+    {
+        CurrentLoId = loId;
+        UpdateTimestamp();
+    }
+
+    public void AssignCreditOfficer(Guid? coId)
+    {
+        CurrentCoId = coId;
+        UpdateTimestamp();
+    }
+
+    public void UpdateLimit(decimal limit)
+    {
+        CurrentLimit = limit;
+        UpdateTimestamp();
+    }
+
+    public void UpdateStatus(CustomerStatus status)
+    {
+        Status = status;
+        UpdateTimestamp();
+    }
 }

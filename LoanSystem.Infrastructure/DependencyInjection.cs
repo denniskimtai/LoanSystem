@@ -33,6 +33,7 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         services.AddScoped<IBranchRepository, BranchRepository>();
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
 
         // 3. Identity Core
         services.AddIdentityCore<User>(options =>

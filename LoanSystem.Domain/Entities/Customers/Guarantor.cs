@@ -23,4 +23,19 @@ public sealed class Guarantor : BaseEntity
     }
 
     private Guarantor() { } // EF Core
+
+    public void Update(
+        string name,
+        string idNumber,
+        string phone,
+        decimal amountGuaranteed,
+        string relationship)
+    {
+        Name = name;
+        IdNumber = idNumber;
+        Phone = phone;
+        AmountGuaranteed = amountGuaranteed;
+        Relationship = relationship;
+        UpdateTimestamp();
+    }
 }

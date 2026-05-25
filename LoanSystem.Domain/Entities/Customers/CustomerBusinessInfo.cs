@@ -39,4 +39,35 @@ public sealed class CustomerBusinessInfo : BaseEntity
     }
 
     private CustomerBusinessInfo() { } // EF Core
+
+    public void Update(
+        string businessName,
+        string businessType,
+        string businessDirection,
+        string businessGeoLocation,
+        decimal currentStockValue,
+        decimal weeklyGrossProfit,
+        decimal weeklyNetProfit,
+        decimal weeklyExpenses,
+        int yearsInBusiness,
+        bool offersCredit,
+        string leadType,
+        decimal proposedLimit,
+        bool wouldLend)
+    {
+        BusinessName = businessName;
+        BusinessType = businessType;
+        BusinessDirection = businessDirection;
+        BusinessGeoLocation = businessGeoLocation;
+        CurrentStockValue = currentStockValue;
+        WeeklyGrossProfit = weeklyGrossProfit;
+        WeeklyNetProfit = weeklyNetProfit;
+        WeeklyExpenses = weeklyExpenses;
+        YearsInBusiness = yearsInBusiness;
+        OffersCredit = offersCredit;
+        LeadType = leadType;
+        ProposedLimit = proposedLimit;
+        WouldLend = wouldLend;
+        UpdateTimestamp();
+    }
 }
