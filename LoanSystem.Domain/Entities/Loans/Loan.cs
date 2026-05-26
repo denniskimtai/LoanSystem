@@ -75,4 +75,89 @@ public sealed class Loan : BaseEntity
     }
 
     private Loan() { } // EF Core
+
+    public void UpdateDetails(decimal principal, decimal interestAmount, Guid productId, Guid loId, Guid coId, LoanType type)
+    {
+        Principal = principal;
+        InterestAmount = interestAmount;
+        ProductId = productId;
+        LoId = loId;
+        CoId = coId;
+        Type = type;
+        
+        RepayableTotal = principal + interestAmount + AddOnsTotal; // Deductions usually don't reduce repayable total directly unless configured
+        Balance = RepayableTotal - RepaidTotal;
+        UpdateTimestamp();
+    }
+
+    public void UpdateStatus(LoanStatus status)
+    {
+        Status = status;
+        UpdateTimestamp();
+    }
+
+    public void UpdateStage(LoanStage stage)
+    {
+        Stage = stage;
+        UpdateTimestamp();
+    }
+
+    public void SetDisbursed(DateTime disbursedAt, DateOnly dueDate, string mpesaCode)
+    {
+        DisbursedAt = disbursedAt;
+        DueDate = dueDate;
+        MpesaCode = mpesaCode;
+        Status = LoanStatus.Disbursed;
+        UpdateTimestamp();
+    }
+
+    public void AddAddon(LoanAddon addon)
+    {
+        _addons.Add(addon);
+        AddOnsTotal += addon.Amount;
+        RepayableTotal += addon.Amount;
+        Balance += addon.Amount;
+        UpdateTimestamp();
+    }
+
+    public void AddDeduction(LoanDeduction deduction)
+    {
+        _deductions.Add(deduction);
+        DeductionsTotal += deduction.Amount;
+        UpdateTimestamp();
+    }
+
+    public void AddPaySchedule(PaySchedule paySchedule)
+    {
+        _paySchedules.Add(paySchedule);
+        UpdateTimestamp();
+    }
+
+    public void ClearPaySchedules()
+    {
+        _paySchedules.Clear();
+        UpdateTimestamp();
+    }
+
+    public void RecordRepayment(decimal amount, DateOnly repayDate)
+    {
+        RepaidTotal += amount;
+        Balance -= amount;
+        LastRepayDate = repayDate;
+        if (Balance <= 0)
+        {
+            Balance = 0;
+            Status = LoanStatus.Cleared;
+            ClearedDate = repayDate;
+        }
+        UpdateTimestamp();
+    }
+
+    public void ApplyPenalty(decimal penalty)
+    {
+        PenaltyAmount += penalty;
+        RepayableTotal += penalty;
+        Balance += penalty;
+        UpdateTimestamp();
+    }
 }

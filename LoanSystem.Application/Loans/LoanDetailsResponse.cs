@@ -1,0 +1,36 @@
+using LoanSystem.Domain.Enums;
+
+namespace LoanSystem.Application.Loans;
+
+public sealed record LoanDetailsResponse(
+    Guid Id,
+    string Code,
+    Guid CustomerId,
+    string CustomerName,
+    Guid ProductId,
+    LoanProductResponse Product,
+    Guid BranchId,
+    Guid LoId,
+    Guid CoId,
+    Guid CreatedById,
+    decimal Principal,
+    decimal AddOnsTotal,
+    decimal DeductionsTotal,
+    decimal RepayableTotal,
+    decimal RepaidTotal,
+    decimal Balance,
+    decimal InterestAmount,
+    decimal PenaltyAmount,
+    LoanType Type,
+    LoanStage Stage,
+    LoanStatus Status,
+    string? MpesaCode,
+    DateTime? DisbursedAt,
+    DateOnly? DueDate,
+    DateOnly? LastRepayDate,
+    DateOnly? ClearedDate,
+    DateTime CreatedAt,
+    DateTime? UpdatedAt,
+    IReadOnlyCollection<LoanAddonResponse> Addons,
+    IReadOnlyCollection<LoanDeductionResponse> Deductions,
+    IReadOnlyCollection<PayScheduleResponse> PaySchedules);
