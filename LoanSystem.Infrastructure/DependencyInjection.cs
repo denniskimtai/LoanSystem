@@ -34,14 +34,16 @@ public static class DependencyInjection
             var connectionString = GetEnvVarIgnoreCase("ConnectionStrings__DefaultConnection")
                                    ?? GetEnvVarIgnoreCase("ConnectionStrings:DefaultConnection")
                                    ?? GetEnvVarIgnoreCase("DATABASE_URL")
-                                   ?? GetEnvVarIgnoreCase("MSSQL_URL")
+                                   ?? GetEnvVarIgnoreCase("MYSQL_URL")
+                                   ?? GetEnvVarIgnoreCase("MYSQL_PRIVATE_URL")
+                                   ?? GetEnvVarIgnoreCase("MYSQLPRIVATE_URL")
                                    ?? GetEnvVarIgnoreCase("CONNECTION_STRING")
-                                   ?? GetEnvVarIgnoreCase("MSSQL_CONNECTION_STRING")
                                    ?? configuration.GetConnectionString("DefaultConnection");
                                    
             Console.WriteLine($"Resolved connection string contains localdb: {connectionString?.Contains("(localdb)") == true}");
                                    
-            options.UseSqlServer(connectionString);
+            var serverVersion = new MySqlServerVersion(new Version(8, 0, 30));
+            options.UseMySql(connectionString, serverVersion);
         });
 
         // 2. Repositories & Unit of Work
