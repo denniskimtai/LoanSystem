@@ -48,6 +48,15 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+    var resetDb = Environment.GetEnvironmentVariable("RESET_DATABASE");
+    if (string.Equals(resetDb, "true", StringComparison.OrdinalIgnoreCase))
+    {
+        Console.WriteLine("RESET_DATABASE=true detected. Deleting existing database tables...");
+        await context.Database.EnsureDeletedAsync();
+        Console.WriteLine("Database deleted successfully. Proceeding with migrations...");
+    }
+
     await context.Database.MigrateAsync();
 }
 
