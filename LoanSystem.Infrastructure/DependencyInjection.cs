@@ -31,7 +31,7 @@ public static class DependencyInjection
             }
             Console.WriteLine("=========================================");
 
-            var connectionString = GetEnvVarIgnoreCase("ConnectionStrings__DefaultConnection")
+            var rawConnectionString = GetEnvVarIgnoreCase("ConnectionStrings__DefaultConnection")
                                    ?? GetEnvVarIgnoreCase("ConnectionStrings:DefaultConnection")
                                    ?? GetEnvVarIgnoreCase("DATABASE_URL")
                                    ?? GetEnvVarIgnoreCase("MYSQL_URL")
@@ -39,9 +39,11 @@ public static class DependencyInjection
                                    ?? GetEnvVarIgnoreCase("MYSQLPRIVATE_URL")
                                    ?? GetEnvVarIgnoreCase("CONNECTION_STRING")
                                    ?? configuration.GetConnectionString("DefaultConnection");
-                                   
+
+            var connectionString = CleanConnectionString(rawConnectionString);
+
             Console.WriteLine($"Resolved connection string contains localdb: {connectionString?.Contains("(localdb)") == true}");
-                                   
+
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 30));
             options.UseMySql(connectionString, serverVersion);
         });
@@ -141,5 +143,69 @@ public static class DependencyInjection
             }
         }
         return null;
+    }
+
+    public static string? CleanConnectionString(string? connStr)
+    {
+        if (string.IsNullOrEmpty(connStr)) return connStr;
+
+        // Parse mysql:// URI format if detected
+        if (connStr.StartsWith("mysql://", StringComparison.OrdinalIgnoreCase))
+        {
+            try
+            {
+                var uri = new Uri(connStr);
+                var userInfo = uri.UserInfo.Split(':');
+                var username = Uri.UnescapeDataString(userInfo[0]);
+                var password = userInfo.Length > 1 ? Uri.UnescapeDataString(userInfo[1]) : "";
+                var host = uri.Host;
+                var port = uri.Port == -1 ? 3306 : uri.Port;
+                var database = uri.AbsolutePath.TrimStart('/');
+                connStr = $"Server={host};Port={port};Database={database};Uid={username};Pwd={password};";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to parse MySQL URI: {ex.Message}");
+            }
+        }
+
+        // Strip SQL Server specific attributes
+        var parts = connStr.Split(';', StringSplitOptions.RemoveEmptyEntries);
+        var cleanParts = new System.Collections.Generic.List<string>();
+        foreach (var part in parts)
+        {
+            var eqIdx = part.IndexOf('=');
+            if (eqIdx <= 0)
+            {
+                cleanParts.Add(part);
+                continue;
+            }
+            var key = part.Substring(0, eqIdx).Trim();
+            var value = part.Substring(eqIdx + 1).Trim();
+            
+            // Normalize key for check
+            var normalizedKey = key.Replace(" ", "").ToLowerInvariant();
+            if (normalizedKey == "trustservercertificate" ||
+                normalizedKey == "multipleactiveresultsets" ||
+                normalizedKey == "integratedsecurity" ||
+                normalizedKey == "connecttimeout" ||
+                normalizedKey == "encrypt")
+            {
+                // Skip SQL Server specific parameters
+                continue;
+            }
+            
+            cleanParts.Add($"{key}={value}");
+        }
+        
+        connStr = string.Join(";", cleanParts);
+
+        // Add safe MySQL defaults
+        if (!connStr.Contains("AllowPublicKeyRetrieval", StringComparison.OrdinalIgnoreCase))
+        {
+            connStr += connStr.EndsWith(";") ? "AllowPublicKeyRetrieval=True;" : ";AllowPublicKeyRetrieval=True;";
+        }
+        
+        return connStr;
     }
 }
