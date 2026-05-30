@@ -23,8 +23,9 @@ public static class DependencyInjection
         // 1. Database
         services.AddDbContext<AppDbContext>(options =>
         {
-            var connectionString = configuration.GetConnectionString("DefaultConnection") 
-                                   ?? Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
+            var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")
+                                   ?? Environment.GetEnvironmentVariable("DATABASE_URL")
+                                   ?? configuration.GetConnectionString("DefaultConnection");
                                    
             options.UseSqlServer(connectionString);
         });
