@@ -34,4 +34,29 @@ public sealed class CustomerSecondaryInfo : BaseEntity
     }
 
     private CustomerSecondaryInfo() { } // EF Core
+
+    public void Update(
+        MaritalStatus maritalStatus,
+        int dependents,
+        string estate,
+        string houseNumber,
+        HomeOwnership ownership,
+        decimal? rentAmount,
+        decimal homeAssetValue,
+        string nearestLandmark,
+        string geoLocation,
+        string heardVia)
+    {
+        MaritalStatus = maritalStatus;
+        Dependents = dependents;
+        Estate = estate;
+        HouseNumber = houseNumber;
+        Ownership = ownership;
+        RentAmount = rentAmount;
+        HomeAssetValue = homeAssetValue;
+        NearestLandmark = nearestLandmark;
+        GeoLocation = geoLocation;
+        HeardVia = heardVia;
+        UpdateTimestamp();
+    }
 }

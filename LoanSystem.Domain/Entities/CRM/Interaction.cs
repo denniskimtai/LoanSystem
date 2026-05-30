@@ -42,4 +42,45 @@ public sealed class Interaction : BaseEntity
     }
 
     private Interaction() { } // EF Core
+
+    public void Update(
+        InteractionMode mode,
+        string purpose,
+        string outcomeDetails,
+        InteractionOutcome outcomeStatus,
+        InteractionTag tag,
+        string defaultReason,
+        string nextSteps,
+        string locationGeo,
+        DateTime interactionAt)
+    {
+        Mode = mode;
+        Purpose = purpose;
+        OutcomeDetails = outcomeDetails;
+        OutcomeStatus = outcomeStatus;
+        Tag = tag;
+        DefaultReason = defaultReason;
+        NextSteps = nextSteps;
+        LocationGeo = locationGeo;
+        InteractionAt = interactionAt;
+        UpdateTimestamp();
+    }
+
+    public void SetLoan(Guid? loanId)
+    {
+        LoanId = loanId;
+        UpdateTimestamp();
+    }
+
+    public void SetPromisedAmount(decimal? amount)
+    {
+        PromisedAmount = amount;
+        UpdateTimestamp();
+    }
+
+    public void SetNextInteractionDate(DateOnly? date)
+    {
+        NextInteractionDate = date;
+        UpdateTimestamp();
+    }
 }

@@ -3,6 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\v-dennistoo\\Documents\\Astra Enterprise Loans System\\Backend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/LoanSystemDb/True/SqlTable/dbo.loan_products.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/LoanSystemDb/True/SqlTable/dbo.customers.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{2E9C61B7-AA73-44DA-8BDB-5F8DE30789B7}|LoanSystem.Api\\LoanSystem.Api.csproj|c:\\users\\v-dennistoo\\documents\\astra enterprise loans system\\backend\\loansystem.api\\controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2E9C61B7-AA73-44DA-8BDB-5F8DE30789B7}|LoanSystem.Api\\LoanSystem.Api.csproj|solutionrelative:loansystem.api\\controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -18,7 +24,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 166,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,7 +56,27 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "dbo.loan_products [Data]",
+              "DocumentMoniker": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/LoanSystemDb/True/SqlTable/dbo.loan_products.sql",
+              "ToolTip": "dbo.loan_products [Data]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2026-05-26T09:59:15.073Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "dbo.customers [Data]",
+              "DocumentMoniker": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/LoanSystemDb/True/SqlTable/dbo.customers.sql",
+              "ToolTip": "dbo.customers [Data]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2026-05-26T09:48:43.93Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "HealthController.cs",
               "DocumentMoniker": "C:\\Users\\v-dennistoo\\Documents\\Astra Enterprise Loans System\\Backend\\LoanSystem.Api\\Controllers\\HealthController.cs",
               "RelativeDocumentMoniker": "LoanSystem.Api\\Controllers\\HealthController.cs",
@@ -62,13 +88,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "ApiController.cs",
               "DocumentMoniker": "C:\\Users\\v-dennistoo\\Documents\\Astra Enterprise Loans System\\Backend\\LoanSystem.Api\\Controllers\\ApiController.cs",
               "RelativeDocumentMoniker": "LoanSystem.Api\\Controllers\\ApiController.cs",
               "ToolTip": "C:\\Users\\v-dennistoo\\Documents\\Astra Enterprise Loans System\\Backend\\LoanSystem.Api\\Controllers\\ApiController.cs",
               "RelativeToolTip": "LoanSystem.Api\\Controllers\\ApiController.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABIAAAAAAAAAAAAYwCgAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-18T19:37:35.444Z",
               "EditorCaption": ""
