@@ -23,9 +23,23 @@ public static class DependencyInjection
         // 1. Database
         services.AddDbContext<AppDbContext>(options =>
         {
-            var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")
-                                   ?? Environment.GetEnvironmentVariable("DATABASE_URL")
+            // Dump environment variable keys for troubleshooting
+            Console.WriteLine("=== Railway Environment Variable Keys ===");
+            foreach (System.Collections.DictionaryEntry entry in Environment.GetEnvironmentVariables())
+            {
+                Console.WriteLine($"- {entry.Key}");
+            }
+            Console.WriteLine("=========================================");
+
+            var connectionString = GetEnvVarIgnoreCase("ConnectionStrings__DefaultConnection")
+                                   ?? GetEnvVarIgnoreCase("ConnectionStrings:DefaultConnection")
+                                   ?? GetEnvVarIgnoreCase("DATABASE_URL")
+                                   ?? GetEnvVarIgnoreCase("MSSQL_URL")
+                                   ?? GetEnvVarIgnoreCase("CONNECTION_STRING")
+                                   ?? GetEnvVarIgnoreCase("MSSQL_CONNECTION_STRING")
                                    ?? configuration.GetConnectionString("DefaultConnection");
+                                   
+            Console.WriteLine($"Resolved connection string contains localdb: {connectionString?.Contains("(localdb)") == true}");
                                    
             options.UseSqlServer(connectionString);
         });
@@ -112,5 +126,18 @@ public static class DependencyInjection
         services.AddAuthorization();
 
         return services;
+    }
+
+    private static string? GetEnvVarIgnoreCase(string key)
+    {
+        var variables = Environment.GetEnvironmentVariables();
+        foreach (System.Collections.DictionaryEntry entry in variables)
+        {
+            if (string.Equals(entry.Key?.ToString(), key, StringComparison.OrdinalIgnoreCase))
+            {
+                return entry.Value?.ToString();
+            }
+        }
+        return null;
     }
 }
