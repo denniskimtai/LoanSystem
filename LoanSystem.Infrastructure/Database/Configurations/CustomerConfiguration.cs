@@ -35,7 +35,7 @@ public sealed class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 
         builder.Property(c => c.PhysicalAddress)
             .IsRequired()
-            .HasColumnType("nvarchar(max)");
+            .HasMaxLength(500);
 
         builder.Property(c => c.HomeGeoLocation)
             .IsRequired()

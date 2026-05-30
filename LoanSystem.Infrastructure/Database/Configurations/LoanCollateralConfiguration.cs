@@ -22,7 +22,7 @@ public sealed class LoanCollateralConfiguration : IEntityTypeConfiguration<LoanC
 
         builder.Property(c => c.Description)
             .IsRequired()
-            .HasColumnType("nvarchar(max)");
+            .HasMaxLength(2000);
 
         builder.Property(c => c.CurrentWorth)
             .HasPrecision(18, 2);

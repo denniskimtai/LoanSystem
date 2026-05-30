@@ -22,7 +22,7 @@ public sealed class CustomerBusinessInfoConfiguration : IEntityTypeConfiguration
 
         builder.Property(c => c.BusinessDirection)
             .IsRequired()
-            .HasColumnType("nvarchar(max)");
+            .HasMaxLength(1000);
 
         builder.Property(c => c.BusinessGeoLocation)
             .IsRequired()

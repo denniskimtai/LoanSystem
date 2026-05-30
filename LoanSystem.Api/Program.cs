@@ -47,17 +47,24 @@ var app = builder.Build();
 // Apply database migrations automatically on startup
 using (var scope = app.Services.CreateScope())
 {
-    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-    var resetDb = Environment.GetEnvironmentVariable("RESET_DATABASE");
-    if (string.Equals(resetDb, "true", StringComparison.OrdinalIgnoreCase))
+    try
     {
-        Console.WriteLine("RESET_DATABASE=true detected. Deleting existing database tables...");
-        await context.Database.EnsureDeletedAsync();
-        Console.WriteLine("Database deleted successfully. Proceeding with migrations...");
-    }
+        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-    await context.Database.MigrateAsync();
+        var resetDb = Environment.GetEnvironmentVariable("RESET_DATABASE");
+        if (string.Equals(resetDb, "true", StringComparison.OrdinalIgnoreCase))
+        {
+            Console.WriteLine("RESET_DATABASE=true detected. Deleting existing database tables...");
+            await context.Database.EnsureDeletedAsync();
+            Console.WriteLine("Database deleted successfully. Proceeding with migrations...");
+        }
+
+        await context.Database.MigrateAsync();
+    }
+    catch (Exception ex)
+    {
+        Log.Warning(ex, "Failed to apply database migrations on startup. If this is design-time (e.g. dotnet ef), this is expected.");
+    }
 }
 
 // Configure the HTTP request pipeline.

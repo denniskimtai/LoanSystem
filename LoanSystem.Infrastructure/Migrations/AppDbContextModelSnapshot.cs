@@ -66,11 +66,13 @@ namespace LoanSystem.Infrastructure.Migrations
 
                     b.Property<string>("NextSteps")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("varchar(2000)");
 
                     b.Property<string>("OutcomeDetails")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("varchar(2000)");
 
                     b.Property<string>("OutcomeStatus")
                         .IsRequired()
@@ -165,7 +167,8 @@ namespace LoanSystem.Infrastructure.Migrations
 
                     b.Property<string>("PhysicalAddress")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
 
                     b.Property<string>("PostalAddress")
                         .IsRequired()
@@ -210,7 +213,8 @@ namespace LoanSystem.Infrastructure.Migrations
 
                     b.Property<string>("BusinessDirection")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<string>("BusinessGeoLocation")
                         .IsRequired()
@@ -836,7 +840,8 @@ namespace LoanSystem.Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("varchar(2000)");
 
                     b.Property<string>("FileNumber")
                         .IsRequired()

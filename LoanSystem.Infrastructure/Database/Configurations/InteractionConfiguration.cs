@@ -23,7 +23,7 @@ public sealed class InteractionConfiguration : IEntityTypeConfiguration<Interact
 
         builder.Property(i => i.OutcomeDetails)
             .IsRequired()
-            .HasColumnType("nvarchar(max)");
+            .HasMaxLength(2000);
 
         builder.Property(i => i.OutcomeStatus)
             .IsRequired()
@@ -45,7 +45,7 @@ public sealed class InteractionConfiguration : IEntityTypeConfiguration<Interact
 
         builder.Property(i => i.NextSteps)
             .IsRequired()
-            .HasColumnType("nvarchar(max)");
+            .HasMaxLength(2000);
 
         builder.Property(i => i.LocationGeo)
             .IsRequired()
