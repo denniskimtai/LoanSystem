@@ -146,10 +146,19 @@ public sealed class AuthController : ApiController
     {
         if (Request.Headers.TryGetValue("X-Forwarded-For", out var forwardedHeader))
         {
-            return forwardedHeader.FirstOrDefault();
+            var headerValue = forwardedHeader.FirstOrDefault();
+            if (!string.IsNullOrEmpty(headerValue))
+            {
+                var firstIp = headerValue.Split(',').FirstOrDefault()?.Trim();
+                if (!string.IsNullOrEmpty(firstIp))
+                {
+                    return firstIp.Length > 45 ? firstIp.Substring(0, 45) : firstIp;
+                }
+            }
         }
 
-        return HttpContext.Connection.RemoteIpAddress?.ToString();
+        var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
+        return ip != null && ip.Length > 45 ? ip.Substring(0, 45) : ip;
     }
 
     private void SetRefreshTokenCookie(string refreshToken)

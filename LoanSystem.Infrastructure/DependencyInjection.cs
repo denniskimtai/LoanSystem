@@ -99,6 +99,11 @@ public static class DependencyInjection
                         ?? Environment.GetEnvironmentVariable("JWT_SECRET_KEY") 
                         ?? "super_secret_key_that_is_long_enough_for_hmac_sha256_32_chars"; // Fallback for default local dev testing if not set
 
+        var secretKeyBytes = Encoding.UTF8.GetBytes(secretKey);
+        var signingKeyBytes = secretKeyBytes.Length < 32 
+            ? System.Security.Cryptography.SHA256.HashData(secretKeyBytes) 
+            : secretKeyBytes;
+
         var issuer = configuration["Jwt:Issuer"] 
                      ?? Environment.GetEnvironmentVariable("JWT_ISSUER") 
                      ?? "LoanSystem";
@@ -122,7 +127,7 @@ public static class DependencyInjection
                 ValidateIssuerSigningKey = true,
                 ValidIssuer = issuer,
                 ValidAudience = audience,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+                IssuerSigningKey = new SymmetricSecurityKey(signingKeyBytes),
                 ClockSkew = TimeSpan.Zero
             };
         });
