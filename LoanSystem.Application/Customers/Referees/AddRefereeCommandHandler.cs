@@ -20,20 +20,20 @@ public sealed class AddRefereeCommandHandler : ICommandHandler<AddRefereeCommand
 
     public async Task<Result<Guid>> Handle(AddRefereeCommand request, CancellationToken cancellationToken)
     {
-        var customer = await _customerRepository.GetByIdWithDetailsAsync(request.CustomerId, cancellationToken);
+        var customer = await _customerRepository.GetByIdAsync(request.CustomerId, cancellationToken);
         if (customer is null)
         {
             return Result.Failure<Guid>(new Error("Customer.NotFound", "The specified customer does not exist."));
         }
 
         var referee = new Referee(
-            customer.Id,
+            request.CustomerId,
             request.Name,
             request.Phone,
             request.PhysicalAddress,
             request.Relationship);
 
-        customer.AddReferee(referee);
+        customer.Referees.Add(referee);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

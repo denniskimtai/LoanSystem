@@ -46,7 +46,7 @@ public sealed class CreateCustomerCommandValidator : AbstractValidator<CreateCus
             .NotEmpty().WithMessage("Creator User ID is required.");
 
         // Conditional nested validation for BusinessInfo
-        When(x => x.BusinessInfo != null, () =>
+        When(x => x.BusinessInfo != null && !string.IsNullOrWhiteSpace(x.BusinessInfo.BusinessName), () =>
         {
             RuleFor(x => x.BusinessInfo!.BusinessName)
                 .NotEmpty().WithMessage("Business name is required.")
@@ -87,7 +87,7 @@ public sealed class CreateCustomerCommandValidator : AbstractValidator<CreateCus
         });
 
         // Conditional nested validation for SecondaryInfo
-        When(x => x.SecondaryInfo != null, () =>
+        When(x => x.SecondaryInfo != null && !string.IsNullOrWhiteSpace(x.SecondaryInfo.Estate), () =>
         {
             RuleFor(x => x.SecondaryInfo!.MaritalStatus)
                 .IsInEnum().WithMessage("Invalid marital status.");
@@ -136,24 +136,27 @@ public sealed class CreateGuarantorInputValidator : AbstractValidator<CreateGuar
 {
     public CreateGuarantorInputValidator()
     {
-        RuleFor(g => g.Name)
-            .NotEmpty().WithMessage("Guarantor name is required.")
-            .MaximumLength(150).WithMessage("Guarantor name must not exceed 150 characters.");
+        When(g => !string.IsNullOrWhiteSpace(g.Name), () =>
+        {
+            RuleFor(g => g.Name)
+                .NotEmpty().WithMessage("Guarantor name is required.")
+                .MaximumLength(150).WithMessage("Guarantor name must not exceed 150 characters.");
 
-        RuleFor(g => g.IdNumber)
-            .NotEmpty().WithMessage("Guarantor ID number is required.")
-            .MaximumLength(50).WithMessage("Guarantor ID number must not exceed 50 characters.");
+            RuleFor(g => g.IdNumber)
+                .NotEmpty().WithMessage("Guarantor ID number is required.")
+                .MaximumLength(50).WithMessage("Guarantor ID number must not exceed 50 characters.");
 
-        RuleFor(g => g.Phone)
-            .NotEmpty().WithMessage("Guarantor phone is required.")
-            .MaximumLength(20).WithMessage("Guarantor phone must not exceed 20 characters.");
+            RuleFor(g => g.Phone)
+                .NotEmpty().WithMessage("Guarantor phone is required.")
+                .MaximumLength(20).WithMessage("Guarantor phone must not exceed 20 characters.");
 
-        RuleFor(g => g.AmountGuaranteed)
-            .GreaterThan(0).WithMessage("Amount guaranteed must be greater than zero.");
+            RuleFor(g => g.AmountGuaranteed)
+                .GreaterThan(0).WithMessage("Amount guaranteed must be greater than zero.");
 
-        RuleFor(g => g.Relationship)
-            .NotEmpty().WithMessage("Guarantor relationship is required.")
-            .MaximumLength(100).WithMessage("Guarantor relationship must not exceed 100 characters.");
+            RuleFor(g => g.Relationship)
+                .NotEmpty().WithMessage("Guarantor relationship is required.")
+                .MaximumLength(100).WithMessage("Guarantor relationship must not exceed 100 characters.");
+        });
     }
 }
 
@@ -161,19 +164,22 @@ public sealed class CreateRefereeInputValidator : AbstractValidator<CreateRefere
 {
     public CreateRefereeInputValidator()
     {
-        RuleFor(r => r.Name)
-            .NotEmpty().WithMessage("Referee name is required.")
-            .MaximumLength(150).WithMessage("Referee name must not exceed 150 characters.");
+        When(r => !string.IsNullOrWhiteSpace(r.Name), () =>
+        {
+            RuleFor(r => r.Name)
+                .NotEmpty().WithMessage("Referee name is required.")
+                .MaximumLength(150).WithMessage("Referee name must not exceed 150 characters.");
 
-        RuleFor(r => r.Phone)
-            .NotEmpty().WithMessage("Referee phone is required.")
-            .MaximumLength(20).WithMessage("Referee phone must not exceed 20 characters.");
+            RuleFor(r => r.Phone)
+                .NotEmpty().WithMessage("Referee phone is required.")
+                .MaximumLength(20).WithMessage("Referee phone must not exceed 20 characters.");
 
-        RuleFor(r => r.PhysicalAddress)
-            .NotEmpty().WithMessage("Referee physical address is required.");
+            RuleFor(r => r.PhysicalAddress)
+                .NotEmpty().WithMessage("Referee physical address is required.");
 
-        RuleFor(r => r.Relationship)
-            .NotEmpty().WithMessage("Referee relationship is required.")
-            .MaximumLength(100).WithMessage("Referee relationship must not exceed 100 characters.");
+            RuleFor(r => r.Relationship)
+                .NotEmpty().WithMessage("Referee relationship is required.")
+                .MaximumLength(100).WithMessage("Referee relationship must not exceed 100 characters.");
+        });
     }
 }

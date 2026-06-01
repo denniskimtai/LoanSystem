@@ -57,21 +57,21 @@ public sealed class CreateCustomerCommandHandler : ICommandHandler<CreateCustome
             request.CreatedById);
 
         // 5. Add Business Info if provided
-        if (request.BusinessInfo is not null)
+        if (request.BusinessInfo is not null && !string.IsNullOrWhiteSpace(request.BusinessInfo.BusinessName))
         {
             var businessInfo = new CustomerBusinessInfo(
                 customer.Id,
                 request.BusinessInfo.BusinessName,
-                request.BusinessInfo.BusinessType,
-                request.BusinessInfo.BusinessDirection,
-                request.BusinessInfo.BusinessGeoLocation,
+                request.BusinessInfo.BusinessType ?? string.Empty,
+                request.BusinessInfo.BusinessDirection ?? string.Empty,
+                request.BusinessInfo.BusinessGeoLocation ?? string.Empty,
                 request.BusinessInfo.CurrentStockValue,
                 request.BusinessInfo.WeeklyGrossProfit,
                 request.BusinessInfo.WeeklyNetProfit,
                 request.BusinessInfo.WeeklyExpenses,
                 request.BusinessInfo.YearsInBusiness,
                 request.BusinessInfo.OffersCredit,
-                request.BusinessInfo.LeadType,
+                request.BusinessInfo.LeadType ?? string.Empty,
                 request.BusinessInfo.ProposedLimit,
                 request.BusinessInfo.WouldLend);
 
@@ -79,20 +79,20 @@ public sealed class CreateCustomerCommandHandler : ICommandHandler<CreateCustome
         }
 
         // 6. Add Secondary Info if provided
-        if (request.SecondaryInfo is not null)
+        if (request.SecondaryInfo is not null && !string.IsNullOrWhiteSpace(request.SecondaryInfo.Estate))
         {
             var secondaryInfo = new CustomerSecondaryInfo(
                 customer.Id,
                 request.SecondaryInfo.MaritalStatus,
                 request.SecondaryInfo.Dependents,
                 request.SecondaryInfo.Estate,
-                request.SecondaryInfo.HouseNumber,
+                request.SecondaryInfo.HouseNumber ?? string.Empty,
                 request.SecondaryInfo.Ownership,
                 request.SecondaryInfo.RentAmount,
                 request.SecondaryInfo.HomeAssetValue,
-                request.SecondaryInfo.NearestLandmark,
-                request.SecondaryInfo.GeoLocation,
-                request.SecondaryInfo.HeardVia);
+                request.SecondaryInfo.NearestLandmark ?? string.Empty,
+                request.SecondaryInfo.GeoLocation ?? string.Empty,
+                request.SecondaryInfo.HeardVia ?? string.Empty);
 
             customer.SetSecondaryInfo(secondaryInfo);
         }
@@ -102,13 +102,18 @@ public sealed class CreateCustomerCommandHandler : ICommandHandler<CreateCustome
         {
             foreach (var gInput in request.Guarantors)
             {
+                if (string.IsNullOrWhiteSpace(gInput.Name))
+                {
+                    continue;
+                }
+
                 var guarantor = new Guarantor(
                     customer.Id,
                     gInput.Name,
-                    gInput.IdNumber,
-                    gInput.Phone,
+                    gInput.IdNumber ?? string.Empty,
+                    gInput.Phone ?? string.Empty,
                     gInput.AmountGuaranteed,
-                    gInput.Relationship);
+                    gInput.Relationship ?? string.Empty);
 
                 customer.AddGuarantor(guarantor);
             }
@@ -119,12 +124,17 @@ public sealed class CreateCustomerCommandHandler : ICommandHandler<CreateCustome
         {
             foreach (var rInput in request.Referees)
             {
+                if (string.IsNullOrWhiteSpace(rInput.Name))
+                {
+                    continue;
+                }
+
                 var referee = new Referee(
                     customer.Id,
                     rInput.Name,
-                    rInput.Phone,
-                    rInput.PhysicalAddress,
-                    rInput.Relationship);
+                    rInput.Phone ?? string.Empty,
+                    rInput.PhysicalAddress ?? string.Empty,
+                    rInput.Relationship ?? string.Empty);
 
                 customer.AddReferee(referee);
             }

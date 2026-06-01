@@ -8,6 +8,8 @@ public interface ICustomerRepository
     Task<Customer?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     Task<Customer?> GetByIdWithDetailsAsync(Guid id, CancellationToken cancellationToken = default);
     void Add(Customer customer);
+    void AddGuarantor(Guarantor guarantor);
+    void AddReferee(Referee referee);
     Task<bool> ExistsByNationalIdAsync(string nationalId, CancellationToken cancellationToken = default);
     Task<bool> ExistsByPhoneAsync(string phone, CancellationToken cancellationToken = default);
     Task<(IReadOnlyCollection<Customer> Items, int TotalCount)> GetPagedAsync(

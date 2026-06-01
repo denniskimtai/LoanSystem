@@ -20,21 +20,21 @@ public sealed class AddGuarantorCommandHandler : ICommandHandler<AddGuarantorCom
 
     public async Task<Result<Guid>> Handle(AddGuarantorCommand request, CancellationToken cancellationToken)
     {
-        var customer = await _customerRepository.GetByIdWithDetailsAsync(request.CustomerId, cancellationToken);
+        var customer = await _customerRepository.GetByIdAsync(request.CustomerId, cancellationToken);
         if (customer is null)
         {
             return Result.Failure<Guid>(new Error("Customer.NotFound", "The specified customer does not exist."));
         }
 
         var guarantor = new Guarantor(
-            customer.Id,
+            request.CustomerId,
             request.Name,
             request.IdNumber,
             request.Phone,
             request.AmountGuaranteed,
             request.Relationship);
 
-        customer.AddGuarantor(guarantor);
+        customer.Guarantors.Add(guarantor);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
