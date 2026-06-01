@@ -19,5 +19,14 @@ public sealed class LoanProduct : BaseEntity
         RepaymentDays = repaymentDays;
     }
 
+    public void Update(string name, decimal minAmount, decimal maxAmount, decimal interestRate, int repaymentDays)
+    {
+        Name = name;
+        MinAmount = minAmount;
+        MaxAmount = maxAmount;
+        InterestRate = interestRate;
+        RepaymentDays = repaymentDays;
+    }
+
     private LoanProduct() { } // EF Core
 }
