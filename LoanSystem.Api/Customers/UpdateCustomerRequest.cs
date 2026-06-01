@@ -4,9 +4,9 @@ public sealed record UpdateCustomerRequest(
     string FullName,
     string NationalId,
     string Phone,
-    string PhotoUrl,
+    string? PhotoUrl,
     string PhysicalAddress,
-    string HomeGeoLocation,
+    string? HomeGeoLocation,
     string Town,
     string County,
     string PostalAddress);

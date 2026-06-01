@@ -22,14 +22,12 @@ public sealed class UpdateCustomerCommandValidator : AbstractValidator<UpdateCus
             .MaximumLength(20).WithMessage("Phone number must not exceed 20 characters.");
 
         RuleFor(x => x.PhotoUrl)
-            .NotEmpty().WithMessage("Photo URL is required.")
             .MaximumLength(500).WithMessage("Photo URL must not exceed 500 characters.");
 
         RuleFor(x => x.PhysicalAddress)
             .NotEmpty().WithMessage("Physical address is required.");
 
         RuleFor(x => x.HomeGeoLocation)
-            .NotEmpty().WithMessage("Home GeoLocation is required.")
             .MaximumLength(200).WithMessage("Home GeoLocation must not exceed 200 characters.");
 
         RuleFor(x => x.Town)

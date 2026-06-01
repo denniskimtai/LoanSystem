@@ -49,9 +49,9 @@ public sealed class UpdateCustomerCommandHandler : ICommandHandler<UpdateCustome
             request.FullName,
             request.NationalId,
             request.Phone,
-            request.PhotoUrl,
+            request.PhotoUrl ?? string.Empty,
             request.PhysicalAddress,
-            request.HomeGeoLocation,
+            request.HomeGeoLocation ?? string.Empty,
             request.Town,
             request.County,
             request.PostalAddress);
