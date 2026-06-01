@@ -45,7 +45,13 @@ public static class DependencyInjection
             Console.WriteLine($"Resolved connection string contains localdb: {connectionString?.Contains("(localdb)") == true}");
 
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 30));
-            options.UseMySql(connectionString, serverVersion);
+            options.UseMySql(connectionString, serverVersion, mySqlOptions => 
+            {
+                mySqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: 3,
+                    maxRetryDelay: TimeSpan.FromSeconds(5),
+                    errorNumbersToAdd: null);
+            });
         });
 
         // 2. Repositories & Unit of Work
