@@ -169,4 +169,57 @@ public class CreateCustomerCommandHandlerTests
         _customerRepository.Received(1).Add(Arg.Is<Customer>(c => c.PhotoUrl == string.Empty && c.HomeGeoLocation == string.Empty));
         await _unitOfWork.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
     }
+
+    [Fact]
+    public async Task Handle_Should_IgnoreEmptyNestedObjects_WhenProvided()
+    {
+        // Arrange
+        var branchId = Guid.NewGuid();
+        var creatorId = Guid.NewGuid();
+        var branch = new Branch("Nairobi", "CBD");
+
+        _branchRepository.GetByIdAsync(branchId, Arg.Any<CancellationToken>())
+            .Returns(branch);
+
+        _customerRepository.ExistsByNationalIdAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(false);
+
+        _customerRepository.ExistsByPhoneAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(false);
+
+        var command = new CreateCustomerCommand(
+            "Dennis Tai",
+            "12345678",
+            "0712345678",
+            null,
+            "Nairobi, Kenya",
+            null,
+            "Nairobi",
+            "Nairobi County",
+            "P.O Box 100",
+            branchId,
+            creatorId,
+            new CreateBusinessInfoInput(
+                null, null, null, null, 0, 0, 0, 0, 0, false, null, 0, false),
+            new CreateSecondaryInfoInput(
+                Domain.Enums.MaritalStatus.Single, 0, null, null, Domain.Enums.HomeOwnership.Owned, null, 0, null, null, null),
+            new[] { new CreateGuarantorInput(null, null, null, 0, null) },
+            new[] { new CreateRefereeInput(null, null, null, null) }
+        );
+
+        // Act
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        Assert.True(result.IsSuccess);
+        Assert.NotEqual(Guid.Empty, result.Value);
+
+        _customerRepository.Received(1).Add(Arg.Is<Customer>(c => 
+            c.BusinessInfo == null && 
+            c.SecondaryInfo == null && 
+            c.Guarantors.Count == 0 && 
+            c.Referees.Count == 0));
+            
+        await _unitOfWork.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
+    }
 }

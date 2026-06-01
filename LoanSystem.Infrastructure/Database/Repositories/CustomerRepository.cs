@@ -35,6 +35,16 @@ public sealed class CustomerRepository : ICustomerRepository
         _context.Customers.Add(customer);
     }
 
+    public void AddGuarantor(Guarantor guarantor)
+    {
+        _context.Guarantors.Add(guarantor);
+    }
+
+    public void AddReferee(Referee referee)
+    {
+        _context.Referees.Add(referee);
+    }
+
     public async Task<bool> ExistsByNationalIdAsync(string nationalId, CancellationToken cancellationToken = default)
     {
         return await _context.Customers.AnyAsync(c => c.NationalId == nationalId, cancellationToken);
