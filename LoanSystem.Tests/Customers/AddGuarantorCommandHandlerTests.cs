@@ -42,6 +42,9 @@ public class AddGuarantorCommandHandlerTests
         _customerRepository.GetByIdWithDetailsAsync(customerId, Arg.Any<CancellationToken>())
             .Returns(customer);
 
+        _customerRepository.When(r => r.AddGuarantor(Arg.Any<Guarantor>()))
+            .Do(callInfo => customer.Guarantors.Add(callInfo.Arg<Guarantor>()));
+
         var command = new AddGuarantorCommand(
             customerId,
             "John Doe",

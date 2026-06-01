@@ -38,7 +38,7 @@ public sealed class AddGuarantorCommandHandler : ICommandHandler<AddGuarantorCom
                 request.AmountGuaranteed,
                 request.Relationship);
 
-            customer.AddGuarantor(guarantor);
+            _customerRepository.AddGuarantor(guarantor);
         }
         else
         {
