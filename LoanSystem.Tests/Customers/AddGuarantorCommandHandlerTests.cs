@@ -1,3 +1,4 @@
+using System.Linq;
 using LoanSystem.Application.Abstractions.Repositories;
 using LoanSystem.Application.Customers.Guarantors;
 using LoanSystem.Domain.Entities.Customers;
@@ -38,7 +39,7 @@ public class AddGuarantorCommandHandlerTests
             Guid.NewGuid(),
             Guid.NewGuid());
 
-        _customerRepository.GetByIdAsync(customerId, Arg.Any<CancellationToken>())
+        _customerRepository.GetByIdWithDetailsAsync(customerId, Arg.Any<CancellationToken>())
             .Returns(customer);
 
         var command = new AddGuarantorCommand(
@@ -61,6 +62,60 @@ public class AddGuarantorCommandHandlerTests
         Assert.Equal("0722222222", guarantor.Phone);
         Assert.Equal(1000m, guarantor.AmountGuaranteed);
         Assert.Equal("Uncle", guarantor.Relationship);
+        await _unitOfWork.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task Handle_Should_UpdateExistingGuarantor_WhenCustomerAlreadyHasGuarantor()
+    {
+        // Arrange
+        var customerId = Guid.NewGuid();
+        var customer = new Customer(
+            "Dennis Tai",
+            "12345678",
+            "0712345678",
+            "http://photo.url",
+            "Nairobi",
+            "1,2",
+            "Nairobi",
+            "Nairobi",
+            "P.O Box 1",
+            Guid.NewGuid(),
+            Guid.NewGuid());
+
+        var existingGuarantor = new Guarantor(
+            customerId,
+            "Jane Doe",
+            "12345678",
+            "0721111111",
+            500m,
+            "Sister");
+
+        customer.Guarantors.Add(existingGuarantor);
+
+        _customerRepository.GetByIdWithDetailsAsync(customerId, Arg.Any<CancellationToken>())
+            .Returns(customer);
+
+        var command = new AddGuarantorCommand(
+            customerId,
+            "John Doe",
+            "87654321",
+            "0722222222",
+            1000m,
+            "Uncle");
+
+        // Act
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        Assert.True(result.IsSuccess);
+        Assert.Single(customer.Guarantors);
+        Assert.Equal(existingGuarantor.Id, result.Value);
+        Assert.Equal("John Doe", existingGuarantor.Name);
+        Assert.Equal("87654321", existingGuarantor.IdNumber);
+        Assert.Equal("0722222222", existingGuarantor.Phone);
+        Assert.Equal(1000m, existingGuarantor.AmountGuaranteed);
+        Assert.Equal("Uncle", existingGuarantor.Relationship);
         await _unitOfWork.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
     }
 
