@@ -5,11 +5,11 @@ namespace LoanSystem.Application.CRM.Interactions.Update;
 
 public sealed record UpdateInteractionCommand(
     Guid Id,
-    InteractionMode Mode,
+    string Mode,
     string Purpose,
     string OutcomeDetails,
-    InteractionOutcome OutcomeStatus,
-    InteractionTag Tag,
+    string OutcomeStatus,
+    string Tag,
     string DefaultReason,
     string NextSteps,
     string LocationGeo,

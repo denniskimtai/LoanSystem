@@ -4,11 +4,11 @@ namespace LoanSystem.Api.CRM;
 
 public sealed record CreateInteractionRequest(
     Guid CustomerId,
-    InteractionMode Mode,
+    string Mode,
     string Purpose,
     string OutcomeDetails,
-    InteractionOutcome OutcomeStatus,
-    InteractionTag Tag,
+    string OutcomeStatus,
+    string Tag,
     string DefaultReason,
     string NextSteps,
     string LocationGeo,

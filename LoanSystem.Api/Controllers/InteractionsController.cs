@@ -122,8 +122,8 @@ public sealed class InteractionsController : ApiController
         [FromQuery] int pageSize = 10,
         [FromQuery] Guid? customerId = null,
         [FromQuery] Guid? agentId = null,
-        [FromQuery] InteractionTag? tag = null,
-        [FromQuery] InteractionOutcome? outcomeStatus = null,
+        [FromQuery] string? tag = null,
+        [FromQuery] string? outcomeStatus = null,
         CancellationToken cancellationToken = default)
     {
         var query = new GetInteractionsQuery(page, pageSize, customerId, agentId, tag, outcomeStatus);

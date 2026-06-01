@@ -9,5 +9,5 @@ public sealed record GetInteractionsQuery(
     int PageSize,
     Guid? CustomerId = null,
     Guid? AgentId = null,
-    InteractionTag? Tag = null,
-    InteractionOutcome? OutcomeStatus = null) : IQuery<PagedResult<InteractionResponse>>;
+    string? Tag = null,
+    string? OutcomeStatus = null) : IQuery<PagedResult<InteractionResponse>>;

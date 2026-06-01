@@ -14,7 +14,6 @@ public sealed class InteractionConfiguration : IEntityTypeConfiguration<Interact
 
         builder.Property(i => i.Mode)
             .IsRequired()
-            .HasConversion<string>()
             .HasMaxLength(50);
 
         builder.Property(i => i.Purpose)
@@ -27,12 +26,10 @@ public sealed class InteractionConfiguration : IEntityTypeConfiguration<Interact
 
         builder.Property(i => i.OutcomeStatus)
             .IsRequired()
-            .HasConversion<string>()
             .HasMaxLength(50);
 
         builder.Property(i => i.Tag)
             .IsRequired()
-            .HasConversion<string>()
             .HasMaxLength(50);
 
         builder.Property(i => i.PromisedAmount)

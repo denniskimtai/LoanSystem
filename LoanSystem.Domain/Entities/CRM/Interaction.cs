@@ -14,11 +14,11 @@ public sealed class Interaction : BaseEntity
     public Loan? Loan { get; private set; }
     public Guid AgentId { get; private set; }
     public User Agent { get; private set; } = null!;
-    public InteractionMode Mode { get; private set; }
+    public string Mode { get; private set; }
     public string Purpose { get; private set; }
     public string OutcomeDetails { get; private set; }
-    public InteractionOutcome OutcomeStatus { get; private set; }
-    public InteractionTag Tag { get; private set; }
+    public string OutcomeStatus { get; private set; }
+    public string Tag { get; private set; }
     public decimal? PromisedAmount { get; private set; }
     public string DefaultReason { get; private set; }
     public string NextSteps { get; private set; }
@@ -26,7 +26,7 @@ public sealed class Interaction : BaseEntity
     public DateOnly? NextInteractionDate { get; private set; }
     public DateTime InteractionAt { get; private set; }
 
-    public Interaction(Guid customerId, Guid agentId, InteractionMode mode, string purpose, string outcomeDetails, InteractionOutcome outcomeStatus, InteractionTag tag, string defaultReason, string nextSteps, string locationGeo, DateTime interactionAt)
+    public Interaction(Guid customerId, Guid agentId, string mode, string purpose, string outcomeDetails, string outcomeStatus, string tag, string defaultReason, string nextSteps, string locationGeo, DateTime interactionAt)
     {
         CustomerId = customerId;
         AgentId = agentId;
@@ -44,11 +44,11 @@ public sealed class Interaction : BaseEntity
     private Interaction() { } // EF Core
 
     public void Update(
-        InteractionMode mode,
+        string mode,
         string purpose,
         string outcomeDetails,
-        InteractionOutcome outcomeStatus,
-        InteractionTag tag,
+        string outcomeStatus,
+        string tag,
         string defaultReason,
         string nextSteps,
         string locationGeo,

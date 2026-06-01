@@ -14,7 +14,8 @@ public sealed class CreateInteractionCommandValidator : AbstractValidator<Create
             .NotEmpty().WithMessage("Agent ID is required.");
 
         RuleFor(x => x.Mode)
-            .IsInEnum().WithMessage("Invalid interaction mode.");
+            .NotEmpty().WithMessage("Interaction mode is required.")
+            .MaximumLength(50).WithMessage("Interaction mode must not exceed 50 characters.");
 
         RuleFor(x => x.Purpose)
             .NotEmpty().WithMessage("Purpose is required.")
@@ -24,13 +25,15 @@ public sealed class CreateInteractionCommandValidator : AbstractValidator<Create
             .NotEmpty().WithMessage("Outcome details are required.");
 
         RuleFor(x => x.OutcomeStatus)
-            .IsInEnum().WithMessage("Invalid outcome status.");
+            .NotEmpty().WithMessage("Outcome status is required.")
+            .MaximumLength(50).WithMessage("Outcome status must not exceed 50 characters.");
 
         RuleFor(x => x.Tag)
-            .IsInEnum().WithMessage("Invalid interaction tag.");
+            .NotEmpty().WithMessage("Interaction tag is required.")
+            .MaximumLength(50).WithMessage("Interaction tag must not exceed 50 characters.");
 
         // Conditional validation for PromisedAmount
-        When(x => x.OutcomeStatus == InteractionOutcome.PromisedToPay, () =>
+        When(x => !string.IsNullOrEmpty(x.OutcomeStatus) && x.OutcomeStatus.Equals("PromisedToPay", StringComparison.OrdinalIgnoreCase), () =>
         {
             RuleFor(x => x.PromisedAmount)
                 .NotNull().WithMessage("Promised amount is required when outcome is Promised To Pay.")

@@ -30,8 +30,8 @@ public sealed class InteractionRepository : IInteractionRepository
         int pageSize,
         Guid? customerId = null,
         Guid? agentId = null,
-        InteractionTag? tag = null,
-        InteractionOutcome? outcomeStatus = null,
+        string? tag = null,
+        string? outcomeStatus = null,
         CancellationToken cancellationToken = default)
     {
         IQueryable<Interaction> query = _context.Interactions;
@@ -46,14 +46,14 @@ public sealed class InteractionRepository : IInteractionRepository
             query = query.Where(i => i.AgentId == agentId.Value);
         }
 
-        if (tag.HasValue)
+        if (!string.IsNullOrEmpty(tag))
         {
-            query = query.Where(i => i.Tag == tag.Value);
+            query = query.Where(i => i.Tag == tag);
         }
 
-        if (outcomeStatus.HasValue)
+        if (!string.IsNullOrEmpty(outcomeStatus))
         {
-            query = query.Where(i => i.OutcomeStatus == outcomeStatus.Value);
+            query = query.Where(i => i.OutcomeStatus == outcomeStatus);
         }
 
         var totalCount = await query.CountAsync(cancellationToken);

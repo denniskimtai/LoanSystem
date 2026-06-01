@@ -12,7 +12,7 @@ public interface IInteractionRepository
         int pageSize,
         Guid? customerId = null,
         Guid? agentId = null,
-        InteractionTag? tag = null,
-        InteractionOutcome? outcomeStatus = null,
+        string? tag = null,
+        string? outcomeStatus = null,
         CancellationToken cancellationToken = default);
 }
