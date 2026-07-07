@@ -23,11 +23,12 @@ public sealed class UpdateLoanProductCommandHandler : ICommandHandler<UpdateLoan
             return Result.Failure(new Error("LoanProduct.NotFound", "The specified loan product does not exist."));
         }
 
+        var interestRate = request.InterestRate > 1 ? request.InterestRate / 100m : request.InterestRate;
         product.Update(
             request.Name,
             request.MinAmount,
             request.MaxAmount,
-            request.InterestRate,
+            interestRate,
             request.RepaymentDays);
 
         _loanProductRepository.Update(product);
