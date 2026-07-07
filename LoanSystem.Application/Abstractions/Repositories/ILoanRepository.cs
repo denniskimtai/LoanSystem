@@ -19,4 +19,7 @@ public interface ILoanRepository
         Guid? customerId = null,
         Guid? branchId = null,
         CancellationToken cancellationToken = default);
+
+    Task<bool> HasAnyLoansAsync(Guid customerId, CancellationToken cancellationToken = default);
+    Task<bool> HasAnyOtherLoansAsync(Guid customerId, Guid currentLoanId, CancellationToken cancellationToken = default);
 }

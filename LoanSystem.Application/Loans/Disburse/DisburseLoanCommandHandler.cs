@@ -32,18 +32,40 @@ public sealed class DisburseLoanCommandHandler : ICommandHandler<DisburseLoanCom
             return Result.Failure(new Error("Loan.InvalidState", $"Loans in the {loan.Status} status cannot be disbursed."));
         }
 
-        // 3. Calculate Due Date using Product's RepaymentDays
+        // 3. Verify Registration Fee for new clients
+        var isRepeat = await _loanRepository.HasAnyOtherLoansAsync(loan.CustomerId, loan.Id, cancellationToken);
+        if (!isRepeat && !loan.Customer.RegistrationFeePaid)
+        {
+            return Result.Failure(new Error("Customer.RegistrationFeeNotPaid", "The customer must pay the member registration fee of 500 Ksh before loan disbursement."));
+        }
+
+        // 4. Calculate Due Date using Product's RepaymentDays
         var dueDate = DateOnly.FromDateTime(request.DisbursedAt.AddDays(loan.Product.RepaymentDays));
 
-        // 4. Update status, stage, disbursement details
+        // 5. Update status, stage, disbursement details
         loan.SetDisbursed(request.DisbursedAt, dueDate, request.MpesaCode);
 
-        // 5. Generate and add a single PaySchedule for the total repayable amount
+        // 6. Generate and add daily PaySchedules for the total repayable amount
         loan.ClearPaySchedules();
-        var paySchedule = new PaySchedule(loan.Id, dueDate, loan.RepayableTotal);
-        loan.AddPaySchedule(paySchedule);
+        var repaymentDays = loan.Product.RepaymentDays;
+        var dailyAmount = Math.Round(loan.RepayableTotal / repaymentDays, 2);
+        var accumulated = 0m;
 
-        // 6. Save changes
+        for (int i = 1; i < repaymentDays; i++)
+        {
+            var scheduleDate = DateOnly.FromDateTime(request.DisbursedAt.AddDays(i));
+            var paySchedule = new PaySchedule(loan.Id, scheduleDate, dailyAmount);
+            loan.AddPaySchedule(paySchedule);
+            accumulated += dailyAmount;
+        }
+
+        // Adjust the last installment for precision
+        var finalScheduleDate = DateOnly.FromDateTime(request.DisbursedAt.AddDays(repaymentDays));
+        var finalAmount = loan.RepayableTotal - accumulated;
+        var finalPaySchedule = new PaySchedule(loan.Id, finalScheduleDate, finalAmount);
+        loan.AddPaySchedule(finalPaySchedule);
+
+        // 7. Save changes
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();

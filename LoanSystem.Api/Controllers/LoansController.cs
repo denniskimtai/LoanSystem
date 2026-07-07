@@ -81,7 +81,7 @@ public sealed class LoansController : ApiController
     }
 
     [HttpDelete("{id:guid}")]
-    [Authorize(Roles = $"{Roles.Admin},{Roles.Manager},{Roles.LoanOfficer}")]
+    [Authorize(Roles = $"{Roles.Admin},{Roles.Manager}")]
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         var command = new DeleteLoanCommand(id);
@@ -96,10 +96,16 @@ public sealed class LoansController : ApiController
     }
 
     [HttpPost("{id:guid}/approve")]
-    [Authorize(Roles = $"{Roles.Admin},{Roles.Manager},{Roles.LoanOfficer}")]
+    [Authorize(Roles = $"{Roles.Admin},{Roles.Manager},{Roles.CollectionOfficer}")]
     public async Task<IActionResult> Approve(Guid id, CancellationToken cancellationToken)
     {
-        var command = new ApproveLoanCommand(id);
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier) ?? User.FindFirst("sub");
+        if (userIdClaim is null || !Guid.TryParse(userIdClaim.Value, out var userId))
+        {
+            return Unauthorized();
+        }
+
+        var command = new ApproveLoanCommand(id, userId);
         var result = await Sender.Send(command, cancellationToken);
 
         if (result.IsFailure)
@@ -130,10 +136,16 @@ public sealed class LoansController : ApiController
     }
 
     [HttpPost("{id:guid}/reject")]
-    [Authorize(Roles = $"{Roles.Admin},{Roles.Manager},{Roles.LoanOfficer}")]
+    [Authorize(Roles = $"{Roles.Admin},{Roles.Manager},{Roles.CollectionOfficer}")]
     public async Task<IActionResult> Reject(Guid id, CancellationToken cancellationToken)
     {
-        var command = new RejectLoanCommand(id);
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier) ?? User.FindFirst("sub");
+        if (userIdClaim is null || !Guid.TryParse(userIdClaim.Value, out var userId))
+        {
+            return Unauthorized();
+        }
+
+        var command = new RejectLoanCommand(id, userId);
         var result = await Sender.Send(command, cancellationToken);
 
         if (result.IsFailure)

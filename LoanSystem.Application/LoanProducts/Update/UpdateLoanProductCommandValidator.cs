@@ -13,7 +13,8 @@ public sealed class UpdateLoanProductCommandValidator : AbstractValidator<Update
             .MaximumLength(100);
 
         RuleFor(x => x.MinAmount)
-            .GreaterThan(0);
+            .GreaterThanOrEqualTo(3000)
+            .WithMessage("Minimum loan limit must be 3000 Ksh onwards.");
 
         RuleFor(x => x.MaxAmount)
             .GreaterThan(x => x.MinAmount)
@@ -23,6 +24,7 @@ public sealed class UpdateLoanProductCommandValidator : AbstractValidator<Update
             .GreaterThanOrEqualTo(0);
 
         RuleFor(x => x.RepaymentDays)
-            .GreaterThan(0);
+            .Must(x => x == 30 || x == 60 || x == 90)
+            .WithMessage("Repayment days must be 30, 60, or 90 days.");
     }
 }

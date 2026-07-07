@@ -8,6 +8,7 @@ using LoanSystem.Application.Customers.UpdateBusinessInfo;
 using LoanSystem.Application.Customers.UpdateSecondaryInfo;
 using LoanSystem.Application.Customers.Guarantors;
 using LoanSystem.Application.Customers.Referees;
+using LoanSystem.Application.Customers.PayRegistrationFee;
 using LoanSystem.Domain.Entities.Identity;
 using LoanSystem.Domain.Enums;
 using MediatR;
@@ -224,6 +225,34 @@ public sealed class CustomersController : ApiController
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         var command = new DeleteCustomerCommand(id);
+        var result = await Sender.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return HandleFailure(result);
+        }
+
+        return Ok();
+    }
+
+    [HttpPost("{id:guid}/pay-registration-fee")]
+    [Authorize(Roles = $"{Roles.Admin},{Roles.Manager},{Roles.LoanOfficer}")]
+    public async Task<IActionResult> PayRegistrationFee(Guid id, [FromBody] PayRegistrationFeeRequest request, CancellationToken cancellationToken)
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier) ?? User.FindFirst("sub");
+        if (userIdClaim is null || !Guid.TryParse(userIdClaim.Value, out var userId))
+        {
+            return Unauthorized();
+        }
+
+        var command = new PayRegistrationFeeCommand(
+            id,
+            request.Amount,
+            request.TransactionCode,
+            request.MpesaRef,
+            request.PayMethod,
+            userId);
+
         var result = await Sender.Send(command, cancellationToken);
 
         if (result.IsFailure)

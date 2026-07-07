@@ -69,6 +69,7 @@ public sealed class CreateLoanCommandHandler : ICommandHandler<CreateLoanCommand
         var loanCode = await _loanRepository.GenerateLoanCodeAsync(cancellationToken);
 
         // 7. Create Loan
+        var interestAmount = Math.Round(request.Principal * (product.InterestRate > 1 ? product.InterestRate / 100m : product.InterestRate), 2);
         var loan = new Loan(
             loanCode,
             request.CustomerId,
@@ -78,7 +79,7 @@ public sealed class CreateLoanCommandHandler : ICommandHandler<CreateLoanCommand
             request.CoId,
             request.CreatedById,
             request.Principal,
-            request.InterestAmount,
+            interestAmount,
             request.Type);
 
         // 8. Add Addons if provided

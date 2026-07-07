@@ -20,6 +20,7 @@ public sealed class Customer : BaseEntity
     public string County { get; private set; }
     public string PostalAddress { get; private set; }
     public decimal CurrentLimit { get; private set; }
+    public bool RegistrationFeePaid { get; private set; }
     public Guid? CurrentLoId { get; private set; }
     public User? CurrentLo { get; private set; }
     public Guid? CurrentCoId { get; private set; }
@@ -51,6 +52,7 @@ public sealed class Customer : BaseEntity
         County = county;
         PostalAddress = postalAddress;
         CurrentLimit = 0m;
+        RegistrationFeePaid = false;
         BranchId = branchId;
         CreatedById = createdById;
     }
@@ -145,6 +147,13 @@ public sealed class Customer : BaseEntity
     public void UpdateStatus(CustomerStatus status)
     {
         Status = status;
+        UpdateTimestamp();
+    }
+
+    public void PayRegistrationFee()
+    {
+        RegistrationFeePaid = true;
+        Status = CustomerStatus.Active;
         UpdateTimestamp();
     }
 }

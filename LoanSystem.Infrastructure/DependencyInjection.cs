@@ -62,6 +62,7 @@ public static class DependencyInjection
         services.AddScoped<IInteractionRepository, InteractionRepository>();
         services.AddScoped<ILoanRepository, LoanRepository>();
         services.AddScoped<ILoanProductRepository, LoanProductRepository>();
+        services.AddScoped<IPaymentRepository, PaymentRepository>();
 
         // 3. Identity Core
         services.AddIdentityCore<User>(options =>

@@ -100,4 +100,14 @@ public sealed class LoanRepository : ILoanRepository
 
         return (items, totalCount);
     }
+
+    public async Task<bool> HasAnyLoansAsync(Guid customerId, CancellationToken cancellationToken = default)
+    {
+        return await _context.Loans.AnyAsync(l => l.CustomerId == customerId, cancellationToken);
+    }
+
+    public async Task<bool> HasAnyOtherLoansAsync(Guid customerId, Guid currentLoanId, CancellationToken cancellationToken = default)
+    {
+        return await _context.Loans.AnyAsync(l => l.CustomerId == customerId && l.Id != currentLoanId, cancellationToken);
+    }
 }

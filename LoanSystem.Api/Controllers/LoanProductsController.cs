@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using LoanSystem.Api.LoanProducts;
 
 namespace LoanSystem.Api.Controllers;
 
@@ -19,7 +20,7 @@ public sealed class LoanProductsController : ApiController
     }
 
     [HttpPost]
-    [Authorize(Roles = $"{Roles.Admin},{Roles.Manager}")]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Create([FromBody] CreateLoanProductCommand command, CancellationToken cancellationToken)
     {
         var result = await Sender.Send(command, cancellationToken);
@@ -33,7 +34,7 @@ public sealed class LoanProductsController : ApiController
     }
 
     [HttpPut("{id:guid}")]
-    [Authorize(Roles = $"{Roles.Admin},{Roles.Manager}")]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateLoanProductRequest request, CancellationToken cancellationToken)
     {
         var command = new UpdateLoanProductCommand(
@@ -55,7 +56,7 @@ public sealed class LoanProductsController : ApiController
     }
 
     [HttpDelete("{id:guid}")]
-    [Authorize(Roles = $"{Roles.Admin},{Roles.Manager}")]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         var command = new DeleteLoanProductCommand(id);
@@ -103,10 +104,3 @@ public sealed class LoanProductsController : ApiController
         return Ok(result.Value);
     }
 }
-
-public sealed record UpdateLoanProductRequest(
-    string Name,
-    decimal MinAmount,
-    decimal MaxAmount,
-    decimal InterestRate,
-    int RepaymentDays);

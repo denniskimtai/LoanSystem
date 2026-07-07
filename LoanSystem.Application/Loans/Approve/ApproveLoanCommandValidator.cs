@@ -8,5 +8,8 @@ public sealed class ApproveLoanCommandValidator : AbstractValidator<ApproveLoanC
     {
         RuleFor(x => x.Id)
             .NotEmpty().WithMessage("Loan ID is required.");
+
+        RuleFor(x => x.UserId)
+            .NotEmpty().WithMessage("User ID is required.");
     }
 }

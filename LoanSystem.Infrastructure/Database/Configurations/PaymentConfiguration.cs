@@ -39,6 +39,7 @@ public sealed class PaymentConfiguration : IEntityTypeConfiguration<Payment>
         builder.HasOne(p => p.Loan)
             .WithMany(l => l.Payments)
             .HasForeignKey(p => p.LoanId)
+            .IsRequired(false)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(p => p.Customer)

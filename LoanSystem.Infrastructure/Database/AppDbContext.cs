@@ -23,6 +23,7 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     public DbSet<LoanSystem.Domain.Entities.CRM.Interaction> Interactions { get; set; }
     public DbSet<LoanSystem.Domain.Entities.Loans.Loan> Loans { get; set; }
     public DbSet<LoanSystem.Domain.Entities.Loans.LoanProduct> LoanProducts { get; set; }
+    public DbSet<LoanSystem.Domain.Entities.Payments.Payment> Payments { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

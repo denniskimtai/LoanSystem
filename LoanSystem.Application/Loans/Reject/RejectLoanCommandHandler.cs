@@ -2,17 +2,24 @@ using LoanSystem.Application.Abstractions.Messaging;
 using LoanSystem.Application.Abstractions.Repositories;
 using LoanSystem.Domain.Enums;
 using LoanSystem.Domain.Primitives;
+using LoanSystem.Domain.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace LoanSystem.Application.Loans.Reject;
 
 public sealed class RejectLoanCommandHandler : ICommandHandler<RejectLoanCommand>
 {
     private readonly ILoanRepository _loanRepository;
+    private readonly UserManager<User> _userManager;
     private readonly IUnitOfWork _unitOfWork;
 
-    public RejectLoanCommandHandler(ILoanRepository loanRepository, IUnitOfWork unitOfWork)
+    public RejectLoanCommandHandler(
+        ILoanRepository loanRepository,
+        UserManager<User> userManager,
+        IUnitOfWork unitOfWork)
     {
         _loanRepository = loanRepository;
+        _userManager = userManager;
         _unitOfWork = unitOfWork;
     }
 
@@ -31,7 +38,19 @@ public sealed class RejectLoanCommandHandler : ICommandHandler<RejectLoanCommand
             return Result.Failure(new Error("Loan.InvalidState", $"Loans in the {loan.Status} status cannot be rejected."));
         }
 
-        // 3. Update status
+        // 3. Get User and verify role
+        var user = await _userManager.FindByIdAsync(request.UserId.ToString());
+        if (user is null)
+        {
+            return Result.Failure(new Error("User.NotFound", "The specified user does not exist."));
+        }
+
+        if (user.Role != UserRole.CollectionOfficer && user.Role != UserRole.Manager && user.Role != UserRole.Admin)
+        {
+            return Result.Failure(new Error("Loan.UnauthorizedRejection", "The user's role is not authorized to reject loans."));
+        }
+
+        // 4. Update status
         loan.UpdateStatus(LoanStatus.Rejected);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
