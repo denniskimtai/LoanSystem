@@ -50,7 +50,7 @@ public class CreateLoanCommandHandlerTests
         var branchId = Guid.NewGuid();
 
         var customer = new Customer("Test Customer", "12345678", "0712345678", "http://photo", "Address", "Loc", "Town", "County", "Post", branchId, loId);
-        var product = new LoanProduct("Test Product", 1000m, 50000m, 0.12m, 30);
+        var product = new LoanProduct("Test Product", 1000m, 50000m, 12m, 30);
         var loanOfficer = new User("lo@test.com", "Loan Officer", UserRole.LoanOfficer, branchId);
         var creditOfficer = new User("co@test.com", "Credit Officer", UserRole.LoanOfficer, branchId);
 
@@ -143,7 +143,7 @@ public class CreateLoanCommandHandlerTests
         var productId = Guid.NewGuid();
         var branchId = Guid.NewGuid();
         var customer = new Customer("Test Customer", "12345678", "0712345678", "http://photo", "Address", "Loc", "Town", "County", "Post", branchId, Guid.NewGuid());
-        var product = new LoanProduct("Test Product", 5000m, 50000m, 0.12m, 30);
+        var product = new LoanProduct("Test Product", 5000m, 50000m, 12m, 30);
 
         _customerRepository.GetByIdAsync(customerId, Arg.Any<CancellationToken>()).Returns(customer);
         _loanProductRepository.GetByIdAsync(productId, Arg.Any<CancellationToken>()).Returns(product);
@@ -176,7 +176,7 @@ public class CreateLoanCommandHandlerTests
         var loId = Guid.NewGuid();
         
         var customer = new Customer("Test Customer", "12345678", "0712345678", "http://photo", "Address", "Loc", "Town", "County", "Post", branchId, loId);
-        var product = new LoanProduct("Test Product", 1000m, 50000m, 0.12m, 30);
+        var product = new LoanProduct("Test Product", 1000m, 50000m, 12m, 30);
 
         _customerRepository.GetByIdAsync(customerId, Arg.Any<CancellationToken>()).Returns(customer);
         _loanProductRepository.GetByIdAsync(productId, Arg.Any<CancellationToken>()).Returns(product);

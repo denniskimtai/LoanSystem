@@ -37,7 +37,7 @@ public class DisburseLoanCommandHandlerTests
         var loan = new Loan("LN-000001", customerId, productId, branchId, loId, coId, creatorId, 15000m, 1800m, LoanType.Manual);
         loan.UpdateStatus(LoanStatus.Approved);
 
-        var product = new LoanProduct("Test Product", 1000m, 50000m, 0.12m, 30);
+        var product = new LoanProduct("Test Product", 1000m, 50000m, 12m, 30);
         
         var customer = new Customer("Test Customer", "12345678", "0712345678", "photo.png", "Address", "Geo", "Town", "County", "Postal", branchId, creatorId);
         customer.PayRegistrationFee();
@@ -82,7 +82,7 @@ public class DisburseLoanCommandHandlerTests
         var loan = new Loan("LN-000001", customerId, productId, branchId, loId, coId, creatorId, 15000m, 1800m, LoanType.Manual);
         loan.UpdateStatus(LoanStatus.Approved);
 
-        var product = new LoanProduct("Test Product", 1000m, 50000m, 0.12m, 30);
+        var product = new LoanProduct("Test Product", 1000m, 50000m, 12m, 30);
         
         var customer = new Customer("Test Customer", "12345678", "0712345678", "photo.png", "Address", "Geo", "Town", "County", "Postal", branchId, creatorId);
         // RegistrationFeePaid is false

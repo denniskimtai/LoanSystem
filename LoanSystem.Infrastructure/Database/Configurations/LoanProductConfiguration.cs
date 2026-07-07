@@ -26,6 +26,6 @@ public sealed class LoanProductConfiguration : IEntityTypeConfiguration<LoanProd
             .HasPrecision(18, 2);
 
         builder.Property(l => l.InterestRate)
-            .HasPrecision(5, 4);
+            .HasPrecision(18, 2);
     }
 }

@@ -69,7 +69,7 @@ public sealed class UpdateLoanCommandHandler : ICommandHandler<UpdateLoanCommand
         }
 
         // 7. Update loan details
-        var interestAmount = Math.Round(request.Principal * (product.InterestRate > 1 ? product.InterestRate / 100m : product.InterestRate), 2);
+        var interestAmount = Math.Round(request.Principal * (product.InterestRate / 100m), 2);
         loan.UpdateDetails(
             request.Principal,
             interestAmount,

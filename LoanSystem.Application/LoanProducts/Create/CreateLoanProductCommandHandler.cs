@@ -18,12 +18,11 @@ public sealed class CreateLoanProductCommandHandler : ICommandHandler<CreateLoan
 
     public async Task<Result<Guid>> Handle(CreateLoanProductCommand request, CancellationToken cancellationToken)
     {
-        var interestRate = request.InterestRate > 1 ? request.InterestRate / 100m : request.InterestRate;
         var product = new LoanProduct(
             request.Name,
             request.MinAmount,
             request.MaxAmount,
-            interestRate,
+            request.InterestRate,
             request.RepaymentDays);
 
         _loanProductRepository.Add(product);
