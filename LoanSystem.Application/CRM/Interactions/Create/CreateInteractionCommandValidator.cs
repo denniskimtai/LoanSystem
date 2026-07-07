@@ -47,7 +47,6 @@ public sealed class CreateInteractionCommandValidator : AbstractValidator<Create
             .NotEmpty().WithMessage("Next steps are required.");
 
         RuleFor(x => x.LocationGeo)
-            .NotEmpty().WithMessage("Location GeoCoordinates are required.")
             .MaximumLength(200).WithMessage("Location GeoCoordinates must not exceed 200 characters.");
 
         RuleFor(x => x.InteractionAt)

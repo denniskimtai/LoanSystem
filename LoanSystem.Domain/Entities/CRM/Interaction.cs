@@ -22,11 +22,11 @@ public sealed class Interaction : BaseEntity
     public decimal? PromisedAmount { get; private set; }
     public string DefaultReason { get; private set; }
     public string NextSteps { get; private set; }
-    public string LocationGeo { get; private set; }
+    public string? LocationGeo { get; private set; }
     public DateOnly? NextInteractionDate { get; private set; }
     public DateTime InteractionAt { get; private set; }
 
-    public Interaction(Guid customerId, Guid agentId, string mode, string purpose, string outcomeDetails, string outcomeStatus, string tag, string defaultReason, string nextSteps, string locationGeo, DateTime interactionAt)
+    public Interaction(Guid customerId, Guid agentId, string mode, string purpose, string outcomeDetails, string outcomeStatus, string tag, string defaultReason, string nextSteps, string? locationGeo, DateTime interactionAt)
     {
         CustomerId = customerId;
         AgentId = agentId;
@@ -51,7 +51,7 @@ public sealed class Interaction : BaseEntity
         string tag,
         string defaultReason,
         string nextSteps,
-        string locationGeo,
+        string? locationGeo,
         DateTime interactionAt)
     {
         Mode = mode;

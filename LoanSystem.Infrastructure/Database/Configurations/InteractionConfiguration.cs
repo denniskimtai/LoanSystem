@@ -45,7 +45,7 @@ public sealed class InteractionConfiguration : IEntityTypeConfiguration<Interact
             .HasMaxLength(2000);
 
         builder.Property(i => i.LocationGeo)
-            .IsRequired()
+            .IsRequired(false)
             .HasMaxLength(200);
 
         builder.HasOne(i => i.Customer)

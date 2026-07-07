@@ -12,7 +12,7 @@ public sealed record UpdateInteractionCommand(
     string Tag,
     string DefaultReason,
     string NextSteps,
-    string LocationGeo,
+    string? LocationGeo,
     DateTime InteractionAt,
     Guid? LoanId = null,
     decimal? PromisedAmount = null,

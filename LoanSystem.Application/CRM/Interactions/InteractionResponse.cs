@@ -15,7 +15,7 @@ public sealed record InteractionResponse(
     decimal? PromisedAmount,
     string DefaultReason,
     string NextSteps,
-    string LocationGeo,
+    string? LocationGeo,
     DateOnly? NextInteractionDate,
     DateTime InteractionAt,
     DateTime CreatedAt,
